@@ -1,13 +1,24 @@
-from queue import Queue
-from threading import Thread, Event
+import gevent
+
+import threading
+import queue
 
 class ActorExit(Exception):
     pass
 
 class Actor:
-    def __init__(self):
-        self._mailbox = Queue()
+    def __init__(self, greenlet=True):
 
+        self.greenlet = greenlet
+
+        if self.greenlet:
+            self._mailbox = gevent.Queue()
+            self._terminated = gevent.Event()
+        else:
+            self._mailbox = queue.Queue()
+            self._terminated = threading.Event()
+
+        self._thread = None
 
     def send(self, msg):
         '''
@@ -33,10 +44,11 @@ class Actor:
         '''
         Start concurrent execution
         '''
-        self._terminated = Event()
-        t = Thread(target=self._bootstrap)
-        t.daemon = True
-        t.start()
+        if self.greenlet:
+            self._thread = gevent.spawn(self._bootstrap)
+        else:
+            self._thread = threading.Thread(target=self._bootstrap)
+            self._thread.start()
 
     def _bootstrap(self):
         try:

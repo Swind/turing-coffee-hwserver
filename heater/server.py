@@ -31,12 +31,17 @@ class HeaterServer(object):
         self.pub_channel, self.cmd_channel = self._init_channel()
 
         logger.info("Initialize actor ...")
-        self._init_actor()
+        self._init_actor(self.pid)
 
         logger.info("Heater server start successfully...")
 
         # The main thread will receive and set the pid parameters by nanomsg
         self.receive()
+
+    def stop(self):
+        self.pub_channel.close()
+        self.cmd_channel.close()
+        self.actor.close()
 
     def _init_pid(self):
         # Init PID
@@ -72,7 +77,6 @@ class HeaterServer(object):
 
     def _init_actor(self, pid, sensor, heater, callback):
         config = self.config['']
-        pass
 
     # ============================================================================================================
     #

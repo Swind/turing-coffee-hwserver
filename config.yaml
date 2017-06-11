@@ -4,18 +4,19 @@ GPIO:
   scheme: BOARD
 
 sensors:
-  tank:
-    name: tank
-    type: MAX31865
-    cs: 29
-    miso: 33
-    mosi: 31
-    clk: 35
+  temperature:
+    tank:
+      name: tank
+      type: MAX31865
+      cs: 29
+      miso: 33
+      mosi: 31
+      clk: 35
 
-  output:
-    name: output
-    type: MAX31856
-    ce: 0
+    output:
+      name: output
+      type: MAX31856
+      ce: 0
 
   channel:
     publish: ipc:///tmp/output_pub_channel

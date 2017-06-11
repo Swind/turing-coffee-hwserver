@@ -12,7 +12,6 @@ class MAX31856(TemperatureSensor):
     T-Type
     """
 
-
     def __init__(self, number):
         self._cs = number   # spi chip select number
 

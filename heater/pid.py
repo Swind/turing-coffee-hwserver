@@ -29,7 +29,7 @@ class PID(object):
         self.lpf1 = 0.0
         self.lpf2 = 0.0
         self.ts_ticks = 0
-        self.self.model = 3
+        self.model = 3
         self.pp = 0.0
         self.pi = 0.0
         self.pd = 0.0

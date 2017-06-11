@@ -11,6 +11,7 @@ from nanomsg import (
     EAGAIN
 )
 
+import gevent
 
 class Channel(object):
 
@@ -34,7 +35,8 @@ class Channel(object):
     def recv(self, blocking=True):
 
         if blocking:
-            result = self.__socket.recv()
+            gevent.socket.wait_read(self.__socket.recv_fd)
+            result = self.__socket.recv(flags=DONTWAIT)
         else:
             try:
                 result = self.__socket.recv(flags=DONTWAIT)
@@ -46,3 +48,6 @@ class Channel(object):
 
     def send(self, msg):
         return self.__socket.send(json.dumps(msg))
+
+    def close(self):
+        self.__socket.close()

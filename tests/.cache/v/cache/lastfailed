@@ -1,1 +1,3 @@
-{}
+{
+  "test_heater.py::test_server": true
+}
