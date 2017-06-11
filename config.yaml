@@ -1,0 +1,64 @@
+unit: C
+
+GPIO:
+  scheme: BOARD
+
+sensors:
+  tank:
+    name: tank
+    type: MAX31865
+    cs: 29
+    miso: 33
+    mosi: 31
+    clk: 35
+
+  output:
+    name: output
+    type: MAX31856
+    ce: 0
+
+  channel:
+    publish: ipc:///tmp/output_pub_channel
+    command: ipc:///tmp/output_cmd_channel
+
+heater:
+  pid:
+    sample time: 1
+    p: 1.2,
+    i: 1,
+    d: 0.001
+
+  channel:
+    publish: ipc:///tmp/heater_pub_channel
+    command: ipc:///tmp/heater_cmd_channel
+
+  heater pin: 7
+
+printer:
+  ports:
+    - /dev/ttyACM0
+    - /dev/ttyACM1
+
+  baudrate: 115200
+  multiple:
+    cold: 1.666
+    hot: 1.176
+
+  channel:
+    publish: ipc:///tmp/printer_pub_channel
+    command: ipc:///tmp/printer_cmd_channel
+
+refill:
+  water level pin:
+    - 11
+    - 12
+
+  motor pin:
+    - 13
+    - 15
+
+  direct: false
+
+  channel:
+    publish: ipc:///tmp/refill_pub_channel
+    command: ipc:///tmp/refill_cmd_channel
