@@ -13,6 +13,18 @@ from nanomsg import (
 
 import gevent
 
+class ServerChannel(object):
+    def __init__(self, config):
+        pub_addr = config['publish']
+        cmd_addr = config['command']
+
+        print(pub_addr)
+        self.publish = Channel(pub_addr, 'Pub', True)
+
+        print(cmd_addr)
+        self.cmd = Channel(cmd_addr, 'Pair', True)
+
+
 class Channel(object):
 
     type_map = {
@@ -31,6 +43,11 @@ class Channel(object):
 
             if channel_type == 'Sub':
                 self.__socket.set_string_option(SUB, SUB_SUBSCRIBE, '')
+
+        if channel_type == 'Sub' or channel_type == 'Pair':
+            self.recv_fd = self.__socket.recv_fd
+        else:
+            self.recv_fd = None
 
     def recv(self, blocking=True):
 

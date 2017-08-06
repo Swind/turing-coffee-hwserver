@@ -2,7 +2,7 @@ import time
 import logging
 
 import spidev
-from sensor.temperature.driver import TemperatureSensor, SensorBrokenError
+from sensor.temperature import TemperatureSensor, SensorBrokenError
 
 logger = logging.getLogger(__name__)
 

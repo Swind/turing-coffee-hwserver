@@ -277,7 +277,7 @@ class PrinterServer(object):
                     self._num_handled_points += 1
                 elif g.name == 'mix':
                     logger.info('Mix water to target temperature')
-		    self._mix_water_to_temperature(g.t)
+            self._mix_water_to_temperature(g.t)
                     self._num_handled_points += 1
 
             self._num_total_points = 0
